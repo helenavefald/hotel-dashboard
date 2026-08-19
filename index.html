@@ -83,25 +83,60 @@ h2{
 
 <script>
 
-console.log("JavaScript lastet");
-
 document.addEventListener("DOMContentLoaded", function(){
 
     const resDiaryInput = document.getElementById("resDiary");
 
-    resDiaryInput.addEventListener("change", function(){
+    resDiaryInput.addEventListener("change", function(event){
 
-        alert("ResDiary-fil valgt!");
+        const file = event.target.files[0];
 
-        document.getElementById("lunch").textContent = "123";
-        document.getElementById("dinner").textContent = "456";
+        if(!file){
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+
+            const csv = e.target.result;
+
+            let lunch = 0;
+            let dinner = 0;
+
+            const lines = csv.split(/\r?\n/);
+
+            lines.forEach(line => {
+
+                if(line.includes("Lunsj")){
+
+                    const matches = line.match(/,(\d+)\s*$/);
+
+                    if(matches){
+                        lunch += parseInt(matches[1]);
+                    }
+                }
+
+                if(line.includes("Middag")){
+
+                    const matches = line.match(/,(\d+)\s*$/);
+
+                    if(matches){
+                        dinner += parseInt(matches[1]);
+                    }
+                }
+
+            });
+
+            document.getElementById("lunch").textContent = lunch;
+            document.getElementById("dinner").textContent = dinner;
+
+        };
+
+        reader.readAsText(file);
 
     });
 
 });
 
 </script>
-
-</body>
-</html>
-``
