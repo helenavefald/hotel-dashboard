@@ -82,4 +82,48 @@ header{
 
 function loadSavedValues(){
 
-    document.
+    document.getElementById("lunch").textContent =
+        localStorage.getItem("lunch") || 0;
+
+    document.getElementById("dinner").textContent =
+        localStorage.getItem("dinner") || 0;
+
+}
+
+function setToday(){
+
+    const input =
+        document.getElementById("selectedDate");
+
+    const today = new Date();
+
+    input.value =
+        today.toISOString().split("T")[0];
+
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    setToday();
+
+    loadSavedValues();
+
+    document
+    .getElementById("resDiary")
+    .addEventListener("change", function(){
+
+        /*
+        TESTVERSJON
+        */
+
+        const lunch = 18;
+        const dinner = 25;
+
+        document.getElementById("lunch")
+            .textContent = lunch;
+
+        document.getElementById("dinner")
+            .textContent = dinner;
+
+        localStorage.setItem(
+     
