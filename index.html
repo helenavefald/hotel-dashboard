@@ -83,50 +83,64 @@ h2{
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", () => {
 
     const resDiaryInput = document.getElementById("resDiary");
 
-    resDiaryInput.addEventListener("change", function(event){
+    resDiaryInput.addEventListener("change", (event) => {
 
         const file = event.target.files[0];
 
-        if(!file){
-            return;
-        }
+        if (!file) return;
 
         const reader = new FileReader();
 
-        reader.onload = function(e){
+        reader.onload = (e) => {
 
             const csv = e.target.result;
+            const lines = csv.split(/\r?\n/);
 
             let lunch = 0;
             let dinner = 0;
 
-            const lines = csv.split(/\r?\n/);
+            let currentMeal = "";
 
-            lines.forEach(line => {
+            const today = "2026-08-19";
 
-                if(line.includes("Lunsj")){
+            for (const line of lines) {
 
-                    const matches = line.match(/,(\d+)\s*$/);
-
-                    if(matches){
-                        lunch += parseInt(matches[1]);
-                    }
+                if (line.includes("Lunsj")) {
+                    currentMeal = "lunch";
+                    continue;
                 }
 
-                if(line.includes("Middag")){
-
-                    const matches = line.match(/,(\d+)\s*$/);
-
-                    if(matches){
-                        dinner += parseInt(matches[1]);
-                    }
+                if (line.includes("Middag")) {
+                    currentMeal = "dinner";
+                    continue;
                 }
 
-            });
+                if (line.includes(today)) {
+
+                    const parts = line.split(",");
+
+                    if (parts.length >= 3) {
+
+                        const guests = parseInt(parts[2]);
+
+                        if (!isNaN(guests)) {
+
+                            if (currentMeal === "lunch") {
+                                lunch = guests;
+                            }
+
+                            if (currentMeal === "dinner") {
+                                dinner = guests;
+                            }
+
+                        }
+                    }
+                }
+            }
 
             document.getElementById("lunch").textContent = lunch;
             document.getElementById("dinner").textContent = dinner;
@@ -138,5 +152,4 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
 });
-
 </script>
