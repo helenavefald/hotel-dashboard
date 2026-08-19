@@ -1,118 +1,91 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hotel Dashboard</title>
 
 <style>
 body{
-    font-family:Segoe UI,sans-serif;
-    margin:0;
-    background:#f5f7fb;
+font-family:Segoe UI;
+background:#f4f6f8;
+margin:0;
 }
 
 header{
-    background:#0f4c81;
-    color:white;
-    padding:20px;
+background:#0f4c81;
+color:white;
+padding:20px;
 }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    padding:20px;
+.container{
+padding:20px;
 }
 
 .card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:12px;
+box-shadow:0 2px 4px rgba(0,0,0,.1);
 }
 
-.number{
-    font-size:40px;
-    font-weight:bold;
-    color:#0f4c81;
+.upload{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-}
-
-th,td{
-    padding:12px;
-    border-bottom:1px solid #ddd;
-}
-
-.section{
-    padding:20px;
+input{
+display:block;
+margin-top:10px;
 }
 </style>
 </head>
-
 <body>
 
 <header>
 <h1>🏨 Hotel Dashboard</h1>
-<p>Mews • EventTemple • ResDiary</p>
 </header>
 
-<div class="cards">
+<div class="container">
 
 <div class="card">
-<h3>Gjester</h3>
-<div class="number">245</div>
+<h2>Last opp filer</h2>
+
+<div class="upload">
+
+<div>
+<label>Mews</label>
+<input type="file" id="mews">
+</div>
+
+<div>
+<label>EventTemple</label>
+<input type="file" id="eventTemple">
+</div>
+
+<div>
+<label>ResDiary</label>
+<input type="file" id="resDiary">
+</div>
+
+</div>
+
 </div>
 
 <div class="card">
-<h3>Frokost</h3>
-<div class="number">231</div>
-</div>
+<h2>Dashboard</h2>
 
-<div class="card">
-<h3>Lunsj</h3>
-<div class="number">85</div>
-</div>
+<p>Gjester: <span id="guests">0</span></p>
 
-<div class="card">
-<h3>Middag</h3>
-<div class="number">112</div>
-</div>
+<p>Frokost: <span id="breakfast">0</span></p>
+
+<p>Lunsj: <span id="lunch">0</span></p>
+
+<p>Middag: <span id="dinner">0</span></p>
 
 </div>
-
-<div class="section">
-
-<h2>Dagens grupper</h2>
-
-<table>
-<tr>
-<th>Gruppe</th>
-<th>Antall</th>
-<th>Pausemat</th>
-<th>Allergener</th>
-</tr>
-
-<tr>
-<td>Firma AS</td>
-<td>45</td>
-<td>Kaffe og frukt</td>
-<td>GF 2, LF 1</td>
-</tr>
-
-<tr>
-<td>Konferanse X</td>
-<td>80</td>
-<td>Wraps</td>
-<td>GF 5</td>
-</tr>
-
-</table>
 
 </div>
 
