@@ -7,7 +7,7 @@
 
 <style>
 body{
-font-family:Segoe UI;
+font-family:Segoe UI,sans-serif;
 background:#f4f6f8;
 margin:0;
 }
@@ -30,15 +30,10 @@ border-radius:12px;
 box-shadow:0 2px 4px rgba(0,0,0,.1);
 }
 
-.upload{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-}
-
-input{
-display:block;
-margin-top:10px;
+.stat{
+font-size:32px;
+font-weight:bold;
+color:#0f4c81;
 }
 </style>
 </head>
@@ -53,41 +48,27 @@ margin-top:10px;
 <div class="card">
 <h2>Last opp filer</h2>
 
-<div class="upload">
-
-<div>
-<label>Mews</label>
+<p><b>Mews</b></p>
 <input type="file" id="mews">
-</div>
 
-<div>
-<label>EventTemple</label>
+<p><b>EventTemple</b></p>
 <input type="file" id="eventTemple">
-</div>
 
-<div>
-<label>ResDiary</label>
+<p><b>ResDiary</b></p>
 <input type="file" id="resDiary">
-</div>
-
-</div>
-
 </div>
 
 <div class="card">
 <h2>Dashboard</h2>
 
-<p>Gjester: <span id="guests">0</span></p>
+<p>Lunsj: <span class="stat" id="lunch">0</span></p>
 
-<p>Frokost: <span id="breakfast">0</span></p>
-
-<p>Lunsj: <span id="lunch">0</span></p>
-
-<p>Middag: <span id="dinner">0</span></p>
+<p>Middag: <span class="stat" id="dinner">0</span></p>
 
 </div>
 
 </div>
 
-</body>
-</html>
+<script>
+
+document
