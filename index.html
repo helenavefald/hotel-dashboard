@@ -39,4 +39,225 @@ header{
 
 label{
     display:block;
-    margin
+    margin-top:15px;
+    font-weight:bold;
+}
+
+input[type="date"]{
+    padding:8px;
+    font-size:16px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>🏨 Hotel Dashboard</h1>
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Last opp filer</h2>
+
+        <label>Mews</label>
+        <input type="file" id="mews">
+
+        <label>EventTemple</label>
+        <input type="file" id="eventTemple">
+
+        <label>ResDiary</label>
+        <input type="file" id="resDiary">
+
+    </div>
+
+    <div class="card">
+
+        <h2>Velg dato</h2>
+
+        <input type="date" id="selectedDate">
+
+    </div>
+
+    <div class="card">
+
+        <h2>Dashboard</h2>
+
+        <p>Gjester: <span id="guests" class="stat">0</span></p>
+
+        <p>Frokost: <span id="breakfast" class="stat">0</span></p>
+
+        <p>Lunsj: <span id="lunch" class="stat">0</span></p>
+
+        <p>Middag: <span id="dinner" class="stat">0</span></p>
+
+    </div>
+
+</div>
+
+<script>
+
+function saveDashboardData(lunch,dinner){
+
+    localStorage.setItem("lunch", lunch);
+    localStorage.setItem("dinner", dinner);
+
+}
+
+function loadDashboardData(){
+
+    const lunch = localStorage.getItem("lunch");
+    const dinner = localStorage.getItem("dinner");
+
+    if(lunch){
+        document.getElementById("lunch").textContent = lunch;
+    }
+
+    if(dinner){
+        document.getElementById("dinner").textContent = dinner;
+    }
+
+}
+
+function saveDate(){
+
+    localStorage.setItem(
+        "selectedDate",
+        document.getElementById("selectedDate").value
+    );
+
+}
+
+function loadDate(){
+
+    const savedDate =
+        localStorage.getItem("selectedDate");
+
+    if(savedDate){
+
+        document.getElementById("selectedDate").value =
+        savedDate;
+
+    }else{
+
+        const today = new Date();
+
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth()+1).padStart(2,"0");
+        const dd = String(today.getDate()).padStart(2,"0");
+
+        document.getElementById("selectedDate").value =
+        `${yyyy}-${mm}-${dd}`;
+
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadDate();
+    loadDashboardData();
+
+    document
+        .getElementById("selectedDate")
+        .addEventListener("change", saveDate);
+
+    document
+        .getElementById("resDiary")
+        .addEventListener("change", function(event){
+
+        const file = event.target.files[0];
+
+        if(!file){
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+
+            const csv = e.target.result;
+
+            const lines =
+                csv.split(/\r?\n/);
+
+            const selectedDate =
+                document.getElementById("selectedDate").value;
+
+            let lunch = 0;
+            let dinner = 0;
+
+            let section = "";
+
+            for(const line of lines){
+
+                if(line.includes("Lunsj")){
+
+                    section = "lunch";
+
+                }
+
+                if(line.includes("Middag")){
+
+                    section = "dinner";
+
+                }
+
+                if(line.includes(selectedDate)){
+
+                    const parts = line.split(",");
+
+                    if(parts.length >= 3){
+
+                        const guests =
+                            parseInt(parts[2]);
+
+                        if(!isNaN(guests)){
+
+                            if(section === "lunch"){
+
+                                lunch = guests;
+
+                            }
+
+                            if(section === "dinner"){
+
+                                dinner = guests;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            document.getElementById("lunch")
+                .textContent = lunch;
+
+            document.getElementById("dinner")
+                .textContent = dinner;
+
+            saveDashboardData(
+                lunch,
+                dinner
+            );
+
+        };
+
+        reader.readAsText(file);
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
