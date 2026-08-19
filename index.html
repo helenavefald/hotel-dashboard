@@ -1,75 +1,107 @@
-alert("Script lastet");
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hotel Dashboard</title>
 
 <style>
 body{
-font-family:Segoe UI,sans-serif;
-background:#f4f6f8;
-margin:0;
+    font-family:Segoe UI,sans-serif;
+    margin:0;
+    background:#f4f6f8;
 }
 
 header{
-background:#0f4c81;
-color:white;
-padding:20px;
+    background:#1f497d;
+    color:white;
+    padding:20px;
 }
 
 .container{
-padding:20px;
+    padding:20px;
 }
 
 .card{
-background:white;
-padding:20px;
-margin-bottom:20px;
-border-radius:12px;
-box-shadow:0 2px 4px rgba(0,0,0,.1);
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+h2{
+    margin-top:0;
 }
 
 .stat{
-font-size:32px;
-font-weight:bold;
-color:#0f4c81;
+    font-size:42px;
+    font-weight:bold;
+    color:#1f497d;
 }
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>🏨 Hotel Dashboard</h1>
+    <h1>🏨 Hotel Dashboard</h1>
 </header>
 
 <div class="container">
 
-<div class="card">
-<h2>Last opp filer</h2>
+    <div class="card">
 
-<p><b>Mews</b></p>
-<input type="file" id="mews">
+        <h2>Last opp filer</h2>
 
-<p><b>EventTemple</b></p>
-<input type="file" id="eventTemple">
+        <p><strong>Mews</strong></p>
+        <input type="file" id="mews">
 
-<p><b>ResDiary</b></p>
-<input type="file" id="resDiary">
-</div>
+        <p><strong>EventTemple</strong></p>
+        <input type="file" id="eventTemple">
 
-<div class="card">
-<h2>Dashboard</h2>
+        <p><strong>ResDiary</strong></p>
+        <input type="file" id="resDiary">
 
-<p>Lunsj: <span class="stat" id="lunch">0</span></p>
+    </div>
 
-<p>Middag: <span class="stat" id="dinner">0</span></p>
+    <div class="card">
 
-</div>
+        <h2>Dashboard</h2>
+
+        <p>Gjester: <span id="guests" class="stat">0</span></p>
+
+        <p>Frokost: <span id="breakfast" class="stat">0</span></p>
+
+        <p>Lunsj: <span id="lunch" class="stat">0</span></p>
+
+        <p>Middag: <span id="dinner" class="stat">0</span></p>
+
+    </div>
 
 </div>
 
 <script>
 
-document
+console.log("JavaScript lastet");
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const resDiaryInput = document.getElementById("resDiary");
+
+    resDiaryInput.addEventListener("change", function(){
+
+        alert("ResDiary-fil valgt!");
+
+        document.getElementById("lunch").textContent = "123";
+        document.getElementById("dinner").textContent = "456";
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
+``
