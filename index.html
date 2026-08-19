@@ -83,7 +83,31 @@ h2{
 
 <script>
 
+function saveData(lunch,dinner){
+
+    localStorage.setItem("lunch", lunch);
+    localStorage.setItem("dinner", dinner);
+
+}
+
+function loadData(){
+
+    const lunch = localStorage.getItem("lunch");
+    const dinner = localStorage.getItem("dinner");
+
+    if(lunch){
+        document.getElementById("lunch").textContent = lunch;
+    }
+
+    if(dinner){
+        document.getElementById("dinner").textContent = dinner;
+    }
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    loadData();
 
     const resDiaryInput = document.getElementById("resDiary");
 
@@ -123,27 +147,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const parts = line.split(",");
 
-                    if (parts.length >= 3) {
+                    if(parts.length >= 3){
 
                         const guests = parseInt(parts[2]);
 
-                        if (!isNaN(guests)) {
+                        if(!isNaN(guests)){
 
-                            if (currentMeal === "lunch") {
+                            if(currentMeal === "lunch"){
                                 lunch = guests;
                             }
 
-                            if (currentMeal === "dinner") {
+                            if(currentMeal === "dinner"){
                                 dinner = guests;
                             }
 
                         }
+
                     }
+
                 }
+
             }
 
             document.getElementById("lunch").textContent = lunch;
             document.getElementById("dinner").textContent = dinner;
+
+            saveData(lunch,dinner);
 
         };
 
@@ -152,4 +181,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
 </script>
