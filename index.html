@@ -6,6 +6,7 @@
 <title>Hotel Dashboard</title>
 
 <style>
+
 body{
     font-family:Segoe UI,sans-serif;
     margin:0;
@@ -30,156 +31,12 @@ header{
     box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
-h2{
-    margin-top:0;
-}
-
 .stat{
     font-size:42px;
     font-weight:bold;
     color:#1f497d;
 }
-</style>
-</head>
 
-<body>
-
-<header>
-    <h1>🏨 Hotel Dashboard</h1>
-</header>
-
-<div class="container">
-
-    <div class="card">
-
-        <h2>Last opp filer</h2>
-
-        <p><strong>Mews</strong></p>
-        <input type="file" id="mews">
-
-        <p><strong>EventTemple</strong></p>
-        <input type="file" id="eventTemple">
-
-        <p><strong>ResDiary</strong></p>
-        <input type="file" id="resDiary">
-
-    </div>
-
-    <div class="card">
-
-        <h2>Dashboard</h2>
-
-        <p>Gjester: <span id="guests" class="stat">0</span></p>
-
-        <p>Frokost: <span id="breakfast" class="stat">0</span></p>
-
-        <p>Lunsj: <span id="lunch" class="stat">0</span></p>
-
-        <p>Middag: <span id="dinner" class="stat">0</span></p>
-
-    </div>
-
-</div>
-
-<script>
-
-function saveData(lunch,dinner){
-
-    localStorage.setItem("lunch", lunch);
-    localStorage.setItem("dinner", dinner);
-
-}
-
-function loadData(){
-
-    const lunch = localStorage.getItem("lunch");
-    const dinner = localStorage.getItem("dinner");
-
-    if(lunch){
-        document.getElementById("lunch").textContent = lunch;
-    }
-
-    if(dinner){
-        document.getElementById("dinner").textContent = dinner;
-    }
-
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    loadData();
-
-    const resDiaryInput = document.getElementById("resDiary");
-
-    resDiaryInput.addEventListener("change", (event) => {
-
-        const file = event.target.files[0];
-
-        if (!file) return;
-
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-
-            const csv = e.target.result;
-            const lines = csv.split(/\r?\n/);
-
-            let lunch = 0;
-            let dinner = 0;
-
-            let currentMeal = "";
-
-            const today = "2026-08-19";
-
-            for (const line of lines) {
-
-                if (line.includes("Lunsj")) {
-                    currentMeal = "lunch";
-                    continue;
-                }
-
-                if (line.includes("Middag")) {
-                    currentMeal = "dinner";
-                    continue;
-                }
-
-                if (line.includes(today)) {
-
-                    const parts = line.split(",");
-
-                    if(parts.length >= 3){
-
-                        const guests = parseInt(parts[2]);
-
-                        if(!isNaN(guests)){
-
-                            if(currentMeal === "lunch"){
-                                lunch = guests;
-                            }
-
-                            if(currentMeal === "dinner"){
-                                dinner = guests;
-                            }
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-            document.getElementById("lunch").textContent = lunch;
-            document.getElementById("dinner").textContent = dinner;
-
-            saveData(lunch,dinner);
-
-        };
-
-        reader.readAsText(file);
-
-    });
-
-});
-
-</script>
+label{
+    display:block;
+    margin
