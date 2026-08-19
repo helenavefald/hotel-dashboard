@@ -6,11 +6,10 @@
 <title>Hotel Dashboard</title>
 
 <style>
-
 body{
     font-family:Segoe UI,sans-serif;
-    margin:0;
     background:#f4f6f8;
+    margin:0;
 }
 
 header{
@@ -25,51 +24,32 @@ header{
 
 .card{
     background:white;
-    border-radius:12px;
     padding:20px;
+    border-radius:12px;
     margin-bottom:20px;
     box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
 .stat{
-    font-size:42px;
+    font-size:40px;
     font-weight:bold;
     color:#1f497d;
 }
-
-label{
-    display:block;
-    margin-top:15px;
-    font-weight:bold;
-}
-
-input[type="date"]{
-    padding:8px;
-    font-size:16px;
-}
-
 </style>
-</head>
 
+</head>
 <body>
 
 <header>
-<h1>🏨 Hotel Dashboard</h1>
+    <h1>🏨 Hotel Dashboard</h1>
 </header>
 
 <div class="container">
 
     <div class="card">
 
-        <h2>Last opp filer</h2>
+        <h2>Last opp ResDiary</h2>
 
-        <label>Mews</label>
-        <input type="file" id="mews">
-
-        <label>EventTemple</label>
-        <input type="file" id="eventTemple">
-
-        <label>ResDiary</label>
         <input type="file" id="resDiary">
 
     </div>
@@ -86,13 +66,13 @@ input[type="date"]{
 
         <h2>Dashboard</h2>
 
-        <p>Gjester: <span id="guests" class="stat">0</span></p>
+        <p>Lunsj:
+            <span class="stat" id="lunch">0</span>
+        </p>
 
-        <p>Frokost: <span id="breakfast" class="stat">0</span></p>
-
-        <p>Lunsj: <span id="lunch" class="stat">0</span></p>
-
-        <p>Middag: <span id="dinner" class="stat">0</span></p>
+        <p>Middag:
+            <span class="stat" id="dinner">0</span>
+        </p>
 
     </div>
 
@@ -100,9 +80,6 @@ input[type="date"]{
 
 <script>
 
-function setTodayDate(){
+function loadSavedValues(){
 
-    const savedDate = localStorage.getItem("selectedDate");
-
-    if(savedDate){
-        
+    document.
