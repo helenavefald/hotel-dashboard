@@ -7,9 +7,9 @@
 
 <style>
 body{
-    font-family:Segoe UI,sans-serif;
-    background:#f4f6f8;
+    font-family: Arial, sans-serif;
     margin:0;
+    background:#f4f6f8;
 }
 
 header{
@@ -25,12 +25,12 @@ header{
 .card{
     background:white;
     padding:20px;
-    border-radius:12px;
     margin-bottom:20px;
+    border-radius:12px;
     box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
-.stat{
+.number{
     font-size:40px;
     font-weight:bold;
     color:#1f497d;
@@ -48,17 +48,9 @@ header{
 
     <div class="card">
 
-        <h2>Last opp ResDiary</h2>
+        <h2>Test opplasting</h2>
 
         <input type="file" id="resDiary">
-
-    </div>
-
-    <div class="card">
-
-        <h2>Dato</h2>
-
-        <input type="date" id="selectedDate">
 
     </div>
 
@@ -67,11 +59,11 @@ header{
         <h2>Dashboard</h2>
 
         <p>Lunsj:
-            <span class="stat" id="lunch">0</span>
+            <span id="lunch" class="number">0</span>
         </p>
 
         <p>Middag:
-            <span class="stat" id="dinner">0</span>
+            <span id="dinner" class="number">0</span>
         </p>
 
     </div>
@@ -80,50 +72,4 @@ header{
 
 <script>
 
-function loadSavedValues(){
-
-    document.getElementById("lunch").textContent =
-        localStorage.getItem("lunch") || 0;
-
-    document.getElementById("dinner").textContent =
-        localStorage.getItem("dinner") || 0;
-
-}
-
-function setToday(){
-
-    const input =
-        document.getElementById("selectedDate");
-
-    const today = new Date();
-
-    input.value =
-        today.toISOString().split("T")[0];
-
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    setToday();
-
-    loadSavedValues();
-
-    document
-    .getElementById("resDiary")
-    .addEventListener("change", function(){
-
-        /*
-        TESTVERSJON
-        */
-
-        const lunch = 18;
-        const dinner = 25;
-
-        document.getElementById("lunch")
-            .textContent = lunch;
-
-        document.getElementById("dinner")
-            .textContent = dinner;
-
-        localStorage.setItem(
-     
+console.log("Script lastet
