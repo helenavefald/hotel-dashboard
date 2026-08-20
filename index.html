@@ -6,6 +6,7 @@
 <title>Hotel Dashboard</title>
 
 <style>
+
 body{
     font-family: Arial,sans-serif;
     background:#f4f6f8;
@@ -35,6 +36,11 @@ header{
     font-weight:bold;
     color:#1f497d;
 }
+
+input[type=date]{
+    padding:8px;
+}
+
 </style>
 
 </head>
@@ -47,18 +53,38 @@ header{
 <div class="container">
 
 <div class="card">
-<h2>ResDiary</h2>
+
+<h2>Mews</h2>
+<input type="file" id="mews">
+
+<h2 style="margin-top:20px;">ResDiary</h2>
 <input type="file" id="resDiary">
+
 </div>
 
 <div class="card">
+
 <h2>Dato</h2>
-<input type="date" id="selectedDate">
+
+<input
+type="date"
+id="selectedDate">
+
 </div>
 
 <div class="card">
 
 <h2>Dashboard</h2>
+
+<p>
+Gjester:
+<span id="guests" class="number">0</span>
+</p>
+
+<p>
+Frokost:
+<span id="breakfast" class="number">0</span>
+</p>
 
 <p>
 Lunsj:
@@ -74,9 +100,11 @@ Middag:
 
 </div>
 
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.jsscript>
+
 <script>
 
-function calculateValues(){
+function updateResDiary(){
 
     const csv =
         localStorage.getItem("resDiaryCsv");
@@ -90,24 +118,26 @@ function calculateValues(){
 
     const lines = csv.split(/\r?\n/);
 
-    let currentSection = "";
+    let section = "";
     let lunch = 0;
     let dinner = 0;
 
     for(const line of lines){
 
         if(line.includes('Servering,"Middag')){
-            currentSection = "dinner";
+            section = "dinner";
             continue;
         }
 
         if(line.includes('Servering,"Lunsj')){
-            currentSection = "lunch";
+            section = "lunch";
             continue;
         }
 
         if(
-            line.startsWith("Besøk - Dato," + selectedDate)
+            line.startsWith(
+                "Besøk - Dato," + selectedDate
+            )
         ){
 
             const parts = line.split(",");
@@ -117,11 +147,11 @@ function calculateValues(){
 
             if(!isNaN(value)){
 
-                if(currentSection === "lunch"){
+                if(section === "lunch"){
                     lunch = value;
                 }
 
-                if(currentSection === "dinner"){
+                if(section === "dinner"){
                     dinner = value;
                 }
 
@@ -132,10 +162,38 @@ function calculateValues(){
     }
 
     document.getElementById("lunch")
-        .textContent = lunch;
+    .textContent = lunch;
 
     document.getElementById("dinner")
-        .textContent = dinner;
+    .textContent = dinner;
+
+}
+
+function updateMews(){
+
+    const mews =
+        JSON.parse(
+            localStorage.getItem("mewsData")
+            || "{}"
+        );
+
+    const selectedDate =
+        document.getElementById("selectedDate").value;
+
+    document.getElementById("guests")
+        .textContent =
+        mews.guests?.[selectedDate] || 0;
+
+    document.getElementById("breakfast")
+        .textContent =
+        mews.breakfast?.[selectedDate] || 0;
+
+}
+
+function updateDashboard(){
+
+    updateMews();
+    updateResDiary();
 
 }
 
@@ -143,23 +201,25 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const today = new Date();
 
-    document.getElementById("selectedDate").value =
-        today.toISOString().split("T")[0];
+    document.getElementById("selectedDate")
+    .value =
+    today.toISOString().split("T")[0];
 
     document
     .getElementById("selectedDate")
-    .addEventListener("change", calculateValues);
+    .addEventListener(
+        "change",
+        updateDashboard
+    );
 
     document
     .getElementById("resDiary")
-    .addEventListener("change", function(event){
+    .addEventListener(
+        "change",
+        function(event){
 
         const file =
             event.target.files[0];
-
-        if(!file){
-            return;
-        }
 
         const reader =
             new FileReader();
@@ -171,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 e.target.result
             );
 
-            calculateValues();
+            updateDashboard();
 
         };
 
@@ -179,11 +239,81 @@ document.addEventListener("DOMContentLoaded", function(){
 
     });
 
-    calculateValues();
+    document
+    .getElementById("mews")
+    .addEventListener(
+        "change",
+        function(event){
 
-});
+        const file =
+            event.target.files[0];
 
-</script>
+        const reader =
+            new FileReader();
 
-</body>
-</html>
+        reader.onload = function(e){
+
+            const workbook =
+                XLSX.read(
+                    e.target.result,
+                    {type:"array"}
+                );
+
+            const guestsSheet =
+                workbook.Sheets["Gjester"];
+
+            const breakfastSheet =
+                workbook.Sheets["Data"];
+
+            const guestsRows =
+                XLSX.utils.sheet_to_json(
+                    guestsSheet,
+                    {header:1}
+                );
+
+            const breakfastRows =
+                XLSX.utils.sheet_to_json(
+                    breakfastSheet,
+                    {header:1}
+                );
+
+            const guests = {};
+            const breakfast = {};
+
+            const guestHeader =
+                guestsRows[0];
+
+            const guestValues =
+                guestsRows[1];
+
+            for(let i=2;i<guestHeader.length;i++){
+
+                const rawDate =
+                    guestHeader[i];
+
+                const value =
+                    guestValues[i];
+
+                if(rawDate){
+
+                    const parts =
+                        String(rawDate)
+                        .split("/");
+
+                    if(parts.length===3){
+
+                        const isoDate =
+                        parts[2] + "-" +
+                        parts[1].padStart(2,"0") + "-" +
+                        parts[0].padStart(2,"0");
+
+                        guests[isoDate] = value;
+
+                    }
+
+                }
+
+            }
+
+            const breakfastHeader =
+           
