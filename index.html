@@ -141,4 +141,77 @@ function updateResDiary(){
                 }
 
                 if(section === "dinner"){
-                   
+                    dinner = value;
+                }
+
+            }
+        }
+    }
+
+    document.getElementById("lunch").textContent =
+        lunch;
+
+    document.getElementById("dinner").textContent =
+        dinner;
+
+}
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+    document.getElementById("selectedDate")
+        .value = today;
+
+    document
+        .getElementById("selectedDate")
+        .addEventListener(
+            "change",
+            updateResDiary
+        );
+
+    document
+        .getElementById("resDiary")
+        .addEventListener(
+            "change",
+            function(event){
+
+                const file =
+                    event.target.files[0];
+
+                if(!file){
+                    return;
+                }
+
+                const reader =
+                    new FileReader();
+
+                reader.onload =
+                    function(e){
+
+                        localStorage.setItem(
+                            "resDiaryCsv",
+                            e.target.result
+                        );
+
+                        updateResDiary();
+
+                    };
+
+                reader.readAsText(file);
+
+            }
+        );
+
+    updateResDiary();
+
+});
+</script>
+
+</body>
+</html>
