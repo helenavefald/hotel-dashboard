@@ -225,7 +225,22 @@ document.addEventListener("DOMContentLoaded", function(){
             new FileReader();
 
         reader.onload = function(e){
-
+            
+            alert("Mews-fil lest");
+const workbook =
+6
+XLSX.read(
+7
+e.target.result,
+8
+{type:"array"}
+9
+);
+            alert(
+2
+workbook.SheetNames.join(", ")
+3
+);
             localStorage.setItem(
                 "resDiaryCsv",
                 e.target.result
