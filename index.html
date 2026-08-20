@@ -212,6 +212,51 @@ function(){
 
 });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xsx.full.min.js
+    <script>
 
+document.getElementById("mews")
+.addEventListener("change", function(event){
+
+    const file = event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        try{
+
+            const workbook = XLSX.read(
+                e.target.result,
+                {
+                    type:"array"
+                }
+            );
+
+            alert(
+                "Ark funnet: " +
+                workbook.SheetNames.join(", ")
+            );
+
+        }
+        catch(error){
+
+            alert(
+                "Feil: " + error.message
+            );
+
+        }
+
+    };
+
+    reader.readAsArrayBuffer(file);
+
+});
+
+</script>
 </body>
 </html>
