@@ -6,11 +6,10 @@
 <title>Hotel Dashboard</title>
 
 <style>
-
 body{
-    font-family: Arial,sans-serif;
-    background:#f4f6f8;
+    font-family:Arial,sans-serif;
     margin:0;
+    background:#f4f6f8;
 }
 
 header{
@@ -26,8 +25,8 @@ header{
 .card{
     background:white;
     padding:20px;
-    border-radius:12px;
     margin-bottom:20px;
+    border-radius:12px;
     box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
@@ -36,117 +35,62 @@ header{
     font-weight:bold;
     color:#1f497d;
 }
-
-label{
-    display:block;
-    margin-top:15px;
-    font-weight:bold;
-}
-
-input[type=date]{
-    padding:10px;
-    font-size:16px;
-}
-
 </style>
-
-<script src="https://cdn/package/dist/xlsx.full.min.js"></script>
-
 </head>
 
 <body>
 
 <header>
-<h1>🏨 Hotel Dashboard</h1>
+    <h1>🏨 Hotel Dashboard</h1>
 </header>
 
 <div class="container">
 
-<div class="card">
+    <div class="card">
 
-<h2>Last opp filer</h2>
+        <h2>Last opp filer</h2>
 
-<label>Mews (.xlsx)</label>
-<input type="file" id="mews">
+        <p><strong>Mews (.xlsx)</strong></p>
+        <input type="file" id="mews">
 
-<label>ResDiary (.csv)</label>
-<input type="file" id="resDiary">
+        <p><strong>ResDiary (.csv)</strong></p>
+        <input type="file" id="resDiary">
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<h2>Dato</h2>
+        <h2>Dato</h2>
 
-<input type="date" id="selectedDate">
+        <input type="date" id="selectedDate">
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<h2>Dashboard</h2>
+        <h2>Dashboard</h2>
 
-<p>
-Gjester:
-<span id="guests" class="number">0</span>
-</p>
+        <p>Gjester:
+            <span id="guests" class="number">0</span>
+        </p>
 
-<p>
-Frokost:
-<span id="breakfast" class="number">0</span>
-</p>
+        <p>Frokost:
+            <span id="breakfast" class="number">0</span>
+        </p>
 
-<p>
-Lunsj:
-<span id="lunch" class="number">0</span>
-</p>
+        <p>Lunsj:
+            <span id="lunch" class="number">0</span>
+        </p>
 
-<p>
-Middag:
-<span id="dinner" class="number">0</span>
-</p>
+        <p>Middag:
+            <span id="dinner" class="number">0</span>
+        </p>
 
-</div>
+    </div>
 
 </div>
 
 <script>
-
-/* =========================
-   DATO
-========================= */
-
-function initDate(){
-
-    const savedDate =
-        localStorage.getItem("selectedDate");
-
-    if(savedDate){
-
-        document.getElementById("selectedDate").value =
-            savedDate;
-
-    }else{
-
-        document.getElementById("selectedDate").value =
-            new Date().toISOString().split("T")[0];
-
-    }
-
-}
-
-function saveDate(){
-
-    localStorage.setItem(
-        "selectedDate",
-        document.getElementById("selectedDate").value
-    );
-
-}
-
-/* =========================
-   RESDIARY
-========================= */
 
 function updateResDiary(){
 
@@ -197,273 +141,4 @@ function updateResDiary(){
                 }
 
                 if(section === "dinner"){
-                    dinner = value;
-                }
-
-            }
-
-        }
-
-    }
-
-    document.getElementById("lunch").textContent =
-        lunch;
-
-    document.getElementById("dinner").textContent =
-        dinner;
-
-}
-
-/* =========================
-   MEWS
-========================= */
-
-function updateMews(){
-
-    const selectedDate =
-        document.getElementById("selectedDate").value;
-
-    const mews =
-        JSON.parse(
-            localStorage.getItem("mewsData") || "{}"
-        );
-
-    document.getElementById("guests").textContent =
-        mews.guests?.[selectedDate] || 0;
-
-    document.getElementById("breakfast").textContent =
-        mews.breakfast?.[selectedDate] || 0;
-
-}
-
-function loadMewsWorkbook(workbook){
-
-    const guestSheet =
-        workbook.Sheets["Gjester"];
-
-    const dataSheet =
-        workbook.Sheets["Data"];
-
-    if(!guestSheet || !dataSheet){
-
-        alert(
-            "Fant ikke arkene 'Gjester' eller 'Data'"
-        );
-
-        return;
-    }
-
-    const guestRows =
-        XLSX.utils.sheet_to_json(
-            guestSheet,
-            {header:1}
-        );
-
-    const dataRows =
-        XLSX.utils.sheet_to_json(
-            dataSheet,
-            {header:1}
-        );
-
-    const guests = {};
-    const breakfast = {};
-
-    /* GJESTER */
-
-    const guestHeader =
-        guestRows[0];
-
-    const guestValues =
-        guestRows[1];
-
-    for(let i=1;i<guestHeader.length;i++){
-
-        const d = guestHeader[i];
-
-        if(
-            typeof d === "string" &&
-            d.includes("/")
-        ){
-
-            const p = d.split("/");
-
-            if(p.length === 3){
-
-                const date =
-                    p[2] + "-" +
-                    p[1[i.length].padStart(2,"0") +
-           "-" +
-                    p[0].padStart(2,"0");
-
-                guests[date] =
-                    Number(guestValues[i]) || 0;
-
-            }
-
-        }
-
-    }
-
-    /* FROKOST
-       RAD 3 I DATA-ARKET
-    */
-
-    const breakfastHeader =
-        dataRows[0];
-
-    const breakfastValues =
-        dataRows[2];
-
-    for(let i=1;i<breakfastHeader.length;i++){
-
-        const d = breakfastHeader[i];
-
-        if(
-            typeof d === "string" &&
-            d.includes("/")
-        ){
-
-            const p = d.split("/");
-
-            if(p.length === 3){
-
-                const date =
-                    p[2] + "-" +
-                    p[1].padStart(2,"0") +
-                    "-" +
-                    p[0].padStart(2,"0");
-
-                breakfast[date] =
-                    Number(breakfastValues[i]) || 0;
-
-            }
-
-        }
-
-    }
-
-    localStorage.setItem(
-        "mewsData",
-        JSON.stringify({
-            guests,
-            breakfast
-        })
-    );
-
-}
-
-/* =========================
-   DASHBOARD
-========================= */
-
-function updateDashboard(){
-
-    updateMews();
-    updateResDiary();
-
-}
-
-/* =========================
-   START
-========================= */
-
-document.addEventListener(
-"DOMContentLoaded",
-function(){
-
-    initDate();
-
-    document
-    .getElementById("selectedDate")
-    .addEventListener(
-        "change",
-        function(){
-
-            saveDate();
-            updateDashboard();
-
-        }
-    );
-
-    document
-    .getElementById("resDiary")
-    .addEventListener(
-        "change",
-        function(event){
-
-            const file =
-                event.target.files[0];
-
-            if(!file){
-                return;
-            }
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                function(e){
-
-                localStorage.setItem(
-                    "resDiaryCsv",
-                    e.target.result
-                );
-
-                updateDashboard();
-
-            };
-
-            reader.readAsText(file);
-
-        }
-    );
-
-    document
-    .getElementById("mews")
-    .addEventListener(
-        "change",
-        function(event){
-
-            const file =
-                event.target.files[0];
-
-            if(!file){
-                return;
-            }
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                function(e){
-
-                const workbook =
-                    XLSX.read(
-                        e.target.result,
-                        {
-                            type:"array"
-                        }
-                    );
-
-                loadMewsWorkbook(
-                    workbook
-                );
-
-                updateDashboard();
-
-            };
-
-            reader.readAsArrayBuffer(
-                file
-            );
-
-        }
-    );
-
-    updateDashboard();
-
-});
-</script>
-
-</body>
-</html>
+                   
