@@ -1,31 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="no">
 <head>
 <meta charset="UTF-8">
-<title>Test</title>
+<title>Hotel Dashboard</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+
+pre{
+    background:#f4f4f4;
+    padding:10px;
+    overflow:auto;
+    max-height:400px;
+}
+</style>
 </head>
 
 <body>
 
-<h1>TEST</h1>
+<h1>Hotel Dashboard</h1>
 
-<button id="testKnapp">
-Klikk meg
-</button>
+<input type="file" id="resDiary">
 
-<div id="resultat">
-Ingen verdi
-</div>
+<h2>Filinnhold</h2>
+
+<pre id="output"></pre>
 
 <script>
 
 alert("Script kjører!");
 
-document.getElementById("testKnapp")
-.addEventListener("click",function(){
+document
+.getElementById("resDiary")
+.addEventListener("change", function(event){
 
-    document.getElementById("resultat")
-    .innerText="DET VIRKER!";
+    const file = event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        document
+        .getElementById("output")
+        .textContent = e.target.result;
+
+    };
+
+    reader.readAsText(file);
 
 });
 
