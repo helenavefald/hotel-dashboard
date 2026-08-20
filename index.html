@@ -26,24 +26,34 @@ header{
 .card{
     background:white;
     padding:20px;
-    margin-bottom:20px;
     border-radius:12px;
+    margin-bottom:20px;
     box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
 .number{
-    font-size:40px;
+    font-size:42px;
     font-weight:bold;
     color:#1f497d;
 }
 
+label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+}
+
 input[type=date]{
-    padding:8px;
+    padding:10px;
+    font-size:16px;
 }
 
 </style>
 
+<script src="https://cdn/package/dist/xlsx.full.min.js"></script>
+
 </head>
+
 <body>
 
 <header>
@@ -54,10 +64,12 @@ input[type=date]{
 
 <div class="card">
 
-<h2>Mews</h2>
+<h2>Last opp filer</h2>
+
+<label>Mews (.xlsx)</label>
 <input type="file" id="mews">
 
-<h2 style="margin-top:20px;">ResDiary</h2>
+<label>ResDiary (.csv)</label>
 <input type="file" id="resDiary">
 
 </div>
@@ -66,9 +78,7 @@ input[type=date]{
 
 <h2>Dato</h2>
 
-<input
-type="date"
-id="selectedDate">
+<input type="date" id="selectedDate">
 
 </div>
 
@@ -100,11 +110,43 @@ Middag:
 
 </div>
 
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full
- 
-alert(typeof XLSX);
+<script>
 
-</script>
+/* =========================
+   DATO
+========================= */
+
+function initDate(){
+
+    const savedDate =
+        localStorage.getItem("selectedDate");
+
+    if(savedDate){
+
+        document.getElementById("selectedDate").value =
+            savedDate;
+
+    }else{
+
+        document.getElementById("selectedDate").value =
+            new Date().toISOString().split("T")[0];
+
+    }
+
+}
+
+function saveDate(){
+
+    localStorage.setItem(
+        "selectedDate",
+        document.getElementById("selectedDate").value
+    );
+
+}
+
+/* =========================
+   RESDIARY
+========================= */
 
 function updateResDiary(){
 
@@ -118,7 +160,8 @@ function updateResDiary(){
     const selectedDate =
         document.getElementById("selectedDate").value;
 
-    const lines = csv.split(/\r?\n/);
+    const lines =
+        csv.split(/\r?\n/);
 
     let section = "";
     let lunch = 0;
@@ -163,34 +206,155 @@ function updateResDiary(){
 
     }
 
-    document.getElementById("lunch")
-    .textContent = lunch;
+    document.getElementById("lunch").textContent =
+        lunch;
 
-    document.getElementById("dinner")
-    .textContent = dinner;
+    document.getElementById("dinner").textContent =
+        dinner;
 
 }
 
-function updateMews(){
+/* =========================
+   MEWS
+========================= */
 
-    const mews =
-        JSON.parse(
-            localStorage.getItem("mewsData")
-            || "{}"
-        );
+function updateMews(){
 
     const selectedDate =
         document.getElementById("selectedDate").value;
 
-    document.getElementById("guests")
-        .textContent =
+    const mews =
+        JSON.parse(
+            localStorage.getItem("mewsData") || "{}"
+        );
+
+    document.getElementById("guests").textContent =
         mews.guests?.[selectedDate] || 0;
 
-    document.getElementById("breakfast")
-        .textContent =
+    document.getElementById("breakfast").textContent =
         mews.breakfast?.[selectedDate] || 0;
 
 }
+
+function loadMewsWorkbook(workbook){
+
+    const guestSheet =
+        workbook.Sheets["Gjester"];
+
+    const dataSheet =
+        workbook.Sheets["Data"];
+
+    if(!guestSheet || !dataSheet){
+
+        alert(
+            "Fant ikke arkene 'Gjester' eller 'Data'"
+        );
+
+        return;
+    }
+
+    const guestRows =
+        XLSX.utils.sheet_to_json(
+            guestSheet,
+            {header:1}
+        );
+
+    const dataRows =
+        XLSX.utils.sheet_to_json(
+            dataSheet,
+            {header:1}
+        );
+
+    const guests = {};
+    const breakfast = {};
+
+    /* GJESTER */
+
+    const guestHeader =
+        guestRows[0];
+
+    const guestValues =
+        guestRows[1];
+
+    for(let i=1;i<guestHeader.length;i++){
+
+        const d = guestHeader[i];
+
+        if(
+            typeof d === "string" &&
+            d.includes("/")
+        ){
+
+            const p = d.split("/");
+
+            if(p.length === 3){
+
+                const date =
+                    p[2] + "-" +
+                    p[1[i.length].padStart(2,"0") +
+           "-" +
+                    p[0].padStart(2,"0");
+
+                guests[date] =
+                    Number(guestValues[i]) || 0;
+
+            }
+
+        }
+
+    }
+
+    /* FROKOST
+       RAD 3 I DATA-ARKET
+    */
+
+    const breakfastHeader =
+        dataRows[0];
+
+    const breakfastValues =
+        dataRows[2];
+
+    for(let i=1;i<breakfastHeader.length;i++){
+
+        const d = breakfastHeader[i];
+
+        if(
+            typeof d === "string" &&
+            d.includes("/")
+        ){
+
+            const p = d.split("/");
+
+            if(p.length === 3){
+
+                const date =
+                    p[2] + "-" +
+                    p[1].padStart(2,"0") +
+                    "-" +
+                    p[0].padStart(2,"0");
+
+                breakfast[date] =
+                    Number(breakfastValues[i]) || 0;
+
+            }
+
+        }
+
+    }
+
+    localStorage.setItem(
+        "mewsData",
+        JSON.stringify({
+            guests,
+            breakfast
+        })
+    );
+
+}
+
+/* =========================
+   DASHBOARD
+========================= */
 
 function updateDashboard(){
 
@@ -199,19 +363,26 @@ function updateDashboard(){
 
 }
 
-document.addEventListener("DOMContentLoaded", function(){
+/* =========================
+   START
+========================= */
 
-    const today = new Date();
+document.addEventListener(
+"DOMContentLoaded",
+function(){
 
-    document.getElementById("selectedDate")
-    .value =
-    today.toISOString().split("T")[0];
+    initDate();
 
     document
     .getElementById("selectedDate")
     .addEventListener(
         "change",
-        updateDashboard
+        function(){
+
+            saveDate();
+            updateDashboard();
+
+        }
     );
 
     document
@@ -220,41 +391,32 @@ document.addEventListener("DOMContentLoaded", function(){
         "change",
         function(event){
 
-        const file =
-            event.target.files[0];
+            const file =
+                event.target.files[0];
 
-        const reader =
-            new FileReader();
+            if(!file){
+                return;
+            }
 
-        reader.onload = function(e){
-            
-            alert("Mews-fil lest");
-const workbook =
-6
-XLSX.read(
-7
-e.target.result,
-8
-{type:"array"}
-9
-);
-            alert(
-2
-workbook.SheetNames.join(", ")
-3
-);
-            localStorage.setItem(
-                "resDiaryCsv",
-                e.target.result
-            );
+            const reader =
+                new FileReader();
 
-            updateDashboard();
+            reader.onload =
+                function(e){
 
-        };
+                localStorage.setItem(
+                    "resDiaryCsv",
+                    e.target.result
+                );
 
-        reader.readAsText(file);
+                updateDashboard();
 
-    });
+            };
+
+            reader.readAsText(file);
+
+        }
+    );
 
     document
     .getElementById("mews")
@@ -262,75 +424,46 @@ workbook.SheetNames.join(", ")
         "change",
         function(event){
 
-        const file =
-            event.target.files[0];
+            const file =
+                event.target.files[0];
 
-        const reader =
-            new FileReader();
-
-        reader.onload = function(e){
-
-            const workbook =
-                XLSX.read(
-                    e.target.result,
-                    {type:"array"}
-                );
-
-            const guestsSheet =
-                workbook.Sheets["Gjester"];
-
-            const breakfastSheet =
-                workbook.Sheets["Data"];
-
-            const guestsRows =
-                XLSX.utils.sheet_to_json(
-                    guestsSheet,
-                    {header:1}
-                );
-
-            const breakfastRows =
-                XLSX.utils.sheet_to_json(
-                    breakfastSheet,
-                    {header:1}
-                );
-
-            const guests = {};
-            const breakfast = {};
-
-            const guestHeader =
-                guestsRows[0];
-
-            const guestValues =
-                guestsRows[1];
-
-            for(let i=2;i<guestHeader.length;i++){
-
-                const rawDate =
-                    guestHeader[i];
-
-                const value =
-                    guestValues[i];
-
-                if(rawDate){
-
-                    const parts =
-                        String(rawDate)
-                        .split("/");
-
-                    if(parts.length===3){
-
-                        const isoDate =
-                        parts[2] + "-" +
-                        parts[1].padStart(2,"0") + "-" +
-                        parts[0].padStart(2,"0");
-
-                        guests[isoDate] = value;
-
-                    }
-
-                }
-
+            if(!file){
+                return;
             }
 
-            const breakfastHeader =
-           
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                function(e){
+
+                const workbook =
+                    XLSX.read(
+                        e.target.result,
+                        {
+                            type:"array"
+                        }
+                    );
+
+                loadMewsWorkbook(
+                    workbook
+                );
+
+                updateDashboard();
+
+            };
+
+            reader.readAsArrayBuffer(
+                file
+            );
+
+        }
+    );
+
+    updateDashboard();
+
+});
+</script>
+
+</body>
+</html>
