@@ -2,58 +2,184 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hotel Dashboard</title>
 
 <style>
 body{
-    font-family:Arial,sans-serif;
+    font-family: Arial,sans-serif;
+    background:#f4f6f8;
+    margin:0;
+}
+
+header{
+    background:#1f497d;
+    color:white;
     padding:20px;
 }
 
-pre{
-    background:#f4f4f4;
-    padding:10px;
-    overflow:auto;
-    max-height:400px;
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.number{
+    font-size:40px;
+    font-weight:bold;
+    color:#1f497d;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<h1>Hotel Dashboard</h1>
+<header>
+<h1>🏨 Hotel Dashboard</h1>
+</header>
 
+<div class="container">
+
+<div class="card">
+<h2>ResDiary</h2>
 <input type="file" id="resDiary">
+</div>
 
-<h2>Filinnhold</h2>
+<div class="card">
+<h2>Dato</h2>
+<input type="date" id="selectedDate">
+</div>
 
-<pre id="output"></pre>
+<div class="card">
+
+<h2>Dashboard</h2>
+
+<p>
+Lunsj:
+<span id="lunch" class="number">0</span>
+</p>
+
+<p>
+Middag:
+<span id="dinner" class="number">0</span>
+</p>
+
+</div>
+
+</div>
 
 <script>
 
-alert("Script kjører!");
+function calculateValues(){
 
-document
-.getElementById("resDiary")
-.addEventListener("change", function(event){
+    const csv =
+        localStorage.getItem("resDiaryCsv");
 
-    const file = event.target.files[0];
-
-    if(!file){
+    if(!csv){
         return;
     }
 
-    const reader = new FileReader();
+    const selectedDate =
+        document.getElementById("selectedDate").value;
 
-    reader.onload = function(e){
+    const lines = csv.split(/\r?\n/);
 
-        document
-        .getElementById("output")
-        .textContent = e.target.result;
+    let currentSection = "";
+    let lunch = 0;
+    let dinner = 0;
 
-    };
+    for(const line of lines){
 
-    reader.readAsText(file);
+        if(line.includes('Servering,"Middag')){
+            currentSection = "dinner";
+            continue;
+        }
+
+        if(line.includes('Servering,"Lunsj')){
+            currentSection = "lunch";
+            continue;
+        }
+
+        if(
+            line.startsWith("Besøk - Dato," + selectedDate)
+        ){
+
+            const parts = line.split(",");
+
+            const value =
+                parseInt(parts[2]);
+
+            if(!isNaN(value)){
+
+                if(currentSection === "lunch"){
+                    lunch = value;
+                }
+
+                if(currentSection === "dinner"){
+                    dinner = value;
+                }
+
+            }
+
+        }
+
+    }
+
+    document.getElementById("lunch")
+        .textContent = lunch;
+
+    document.getElementById("dinner")
+        .textContent = dinner;
+
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const today = new Date();
+
+    document.getElementById("selectedDate").value =
+        today.toISOString().split("T")[0];
+
+    document
+    .getElementById("selectedDate")
+    .addEventListener("change", calculateValues);
+
+    document
+    .getElementById("resDiary")
+    .addEventListener("change", function(event){
+
+        const file =
+            event.target.files[0];
+
+        if(!file){
+            return;
+        }
+
+        const reader =
+            new FileReader();
+
+        reader.onload = function(e){
+
+            localStorage.setItem(
+                "resDiaryCsv",
+                e.target.result
+            );
+
+            calculateValues();
+
+        };
+
+        reader.readAsText(file);
+
+    });
+
+    calculateValues();
 
 });
 
