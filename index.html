@@ -1,75 +1,35 @@
 <!DOCTYPE html>
-<html lang="no">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Dashboard</title>
-
-<style>
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    background:#f4f6f8;
-}
-
-header{
-    background:#1f497d;
-    color:white;
-    padding:20px;
-}
-
-.container{
-    padding:20px;
-}
-
-.card{
-    background:white;
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.number{
-    font-size:40px;
-    font-weight:bold;
-    color:#1f497d;
-}
-</style>
-
+<title>Test</title>
 </head>
+
 <body>
 
-<header>
-    <h1>🏨 Hotel Dashboard</h1>
-</header>
+<h1>TEST</h1>
 
-<div class="container">
+<button id="testKnapp">
+Klikk meg
+</button>
 
-    <div class="card">
-
-        <h2>Test opplasting</h2>
-
-        <input type="file" id="resDiary">
-
-    </div>
-
-    <div class="card">
-
-        <h2>Dashboard</h2>
-
-        <p>Lunsj:
-            <span id="lunch" class="number">0</span>
-        </p>
-
-        <p>Middag:
-            <span id="dinner" class="number">0</span>
-        </p>
-
-    </div>
-
+<div id="resultat">
+Ingen verdi
 </div>
 
 <script>
 
-console.log("Script lastet
+alert("Script kjører!");
+
+document.getElementById("testKnapp")
+.addEventListener("click",function(){
+
+    document.getElementById("resultat")
+    .innerText="DET VIRKER!";
+
+});
+
+</script>
+
+</body>
+</html>
