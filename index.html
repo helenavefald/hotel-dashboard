@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="no">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -9,147 +11,168 @@
 <style>
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Segoe UI,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
 }
 
 body{
-background:#f5f6f8;
-display:flex;
-color:#2d3436;
+    background:#f5f6f8;
+    color:#333;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
 }
 
 .sidebar{
-width:260px;
-height:100vh;
-background:#153b47;
-color:white;
-padding:30px;
-position:fixed;
+    width:250px;
+    background:#163845;
+    color:white;
+    padding:25px;
 }
 
 .logo{
-font-size:28px;
-font-weight:700;
-margin-bottom:30px;
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:30px;
 }
 
 .menu div{
-padding:14px;
-border-radius:10px;
-cursor:pointer;
-margin-bottom:6px;
+    padding:14px;
+    margin-bottom:10px;
+    border-radius:10px;
+    cursor:pointer;
 }
 
 .menu div:hover{
-background:rgba(255,255,255,0.1);
+    background:rgba(255,255,255,.1);
 }
 
 .main{
-margin-left:260px;
-padding:30px;
-width:100%;
+    flex:1;
+    padding:30px;
 }
 
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
+h1{
+    margin-bottom:20px;
 }
 
 .uploads{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
 }
 
-.upload-card{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,.08);
+.upload-box{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
 .cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:16px;
-margin-bottom:24px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:25px;
 }
 
 .card{
-background:white;
-padding:20px;
-border-radius:16px;
-box-shadow:0 2px 8px rgba(0,0,0,.08);
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.card h3{
-color:#888;
-font-size:14px;
-margin-bottom:5px;
+.card-title{
+    color:#888;
+    font-size:14px;
 }
 
-.value{
-font-size:42px;
-font-weight:700;
-color:#153b47;
+.card-number{
+    font-size:42px;
+    font-weight:700;
+    color:#163845;
+    margin-top:10px;
 }
 
 .section{
-background:white;
-padding:24px;
-margin-bottom:20px;
-border-radius:16px;
-box-shadow:0 2px 8px rgba(0,0,0,.08);
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
 .section h2{
-margin-bottom:15px;
-}
-
-.allergy{
-background:#ffebee;
-color:#c62828;
-padding:10px;
-border-radius:10px;
-margin-bottom:8px;
+    margin-bottom:20px;
+    color:#163845;
 }
 
 .event{
-padding:12px;
-border-bottom:1px solid #eee;
+    padding:20px;
+    border-bottom:1px solid #eee;
 }
 
 .event:last-child{
-border-bottom:none;
+    border-bottom:none;
+}
+
+.event h3{
+    color:#163845;
+    margin-bottom:10px;
+}
+
+.event-details{
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.notes-box{
+    margin-top:15px;
+    background:#fff8e1;
+    border-left:5px solid #ffb300;
+    padding:15px;
+    border-radius:10px;
+    line-height:1.8;
 }
 
 table{
-width:100%;
-border-collapse:collapse;
+    width:100%;
+    border-collapse:collapse;
 }
 
 th,td{
-padding:12px;
-text-align:left;
-border-bottom:1px solid #eee;
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid #e8e8e8;
 }
 
-.badge{
-display:inline-block;
-padding:4px 10px;
-border-radius:20px;
-background:#e8f5e9;
+th{
+    background:#f8f8f8;
+}
+
+.warning{
+    color:#d32f2f;
+    font-weight:700;
+}
+
+.success{
+    color:#2e7d32;
+    font-weight:700;
 }
 
 </style>
+
 </head>
 
 <body>
+
+<div class="container">
 
 <div class="sidebar">
 
@@ -161,39 +184,32 @@ Helena Hub
 <div>🏠 Dashboard</div>
 <div>☕ Dagens Drift</div>
 <div>🥐 Ukens Pausemat</div>
-<div>⚠️ Allergier</div>
 <div>🏨 Belegg</div>
-<div>📈 Prognoser</div>
+<div>📈 Prognose</div>
+<div>⚙️ Innstillinger</div>
 </div>
 
 </div>
 
 <div class="main">
 
-<div class="header">
-
 <h1>Dagens Drift</h1>
 
 <div class="uploads">
 
-<div class="upload-card">
-BookingSummary
-<br>
+<div class="upload-box">
+<b>BookingSummaryReport</b><br><br>
 <input type="file">
 </div>
 
-<div class="upload-card">
-Line Items
-<br>
+<div class="upload-box">
+<b>Line Items (Ukesrapport)</b><br><br>
 <input type="file">
 </div>
 
-<div class="upload-card">
-Product Report
-<br>
+<div class="upload-box">
+<b>Product Report</b><br><br>
 <input type="file">
-</div>
-
 </div>
 
 </div>
@@ -201,28 +217,28 @@ Product Report
 <div class="cards">
 
 <div class="card">
-<h3>Boende</h3>
-<div class="value" id="boende">295</div>
+<div class="card-title">Boende</div>
+<div class="card-number">295</div>
 </div>
 
 <div class="card">
-<h3>Frokost</h3>
-<div class="value" id="frokost">156</div>
+<div class="card-title">Frokost</div>
+<div class="card-number">156</div>
 </div>
 
 <div class="card">
-<h3>Lunsj</h3>
-<div class="value" id="lunsj">98</div>
+<div class="card-title">Lunsj</div>
+<div class="card-number">98</div>
 </div>
 
 <div class="card">
-<h3>Middag</h3>
-<div class="value" id="middag">103</div>
+<div class="card-title">Middag</div>
+<div class="card-number">103</div>
 </div>
 
 <div class="card">
-<h3>Pausemat</h3>
-<div class="value" id="pausemat">44</div>
+<div class="card-title">Pausemat</div>
+<div class="card-number">44</div>
 </div>
 
 </div>
@@ -232,34 +248,65 @@ Product Report
 <h2>Dagens Pausemat</h2>
 
 <div class="event">
-<b>SEB</b><br>
-32 x Kyllingwraps
+
+<h3>SEB 21.-22.08.26</h3>
+
+<div class="event-details">
+
+<strong>Tid:</strong> 16:30<br>
+<strong>Sted:</strong> Resepsjon<br><br>
+
+<strong>Pausemat:</strong>
+
+<ul>
+<li>32 × Kyllingwraps</li>
+</ul>
+
+</div>
+
+<div class="notes-box">
+
+<strong>📋 Event Notes</strong><br><br>
+
+Skal serveres sammen med felles innsjekk i resepsjonen.<br><br>
+
+Allergier:
+<ul>
+<li>Isak Fluck - Laktose</li>
+</ul>
+
+</div>
+
 </div>
 
 <div class="event">
-<b>Nedenesåsen Barnehage</b><br>
-4 x Smoothie<br>
-2 x Kanelbolle<br>
-2 x Brie & Salami<br>
-4 x Ost & Skinke
-</div>
+
+<h3>Nedenesåsen Barnehage AS</h3>
+
+<div class="event-details">
+
+<strong>Tid:</strong> 08:30<br>
+<strong>Sted:</strong> Langøy<br><br>
+
+<strong>Pausemat:</strong>
+
+<ul>
+<li>4 × Bærsmoothie</li>
+<li>2 × Kanelbolle</li>
+<li>2 × Baguette med brie og salami</li>
+<li>4 × Baguette med ost og skinke</li>
+</ul>
 
 </div>
 
-<div class="section">
+<div class="notes-box">
 
-<h2>Allergivarsler</h2>
+<strong>📋 Event Notes</strong><br><br>
 
-<div class="allergy">
-SEB - Laktose
+Pausemat settes inn i møterommet ved innsjekk.
+
 </div>
 
-<div class="allergy">
-Amedia - Skalldyr, krabbe, nøtter, sitrus
-</div>
-
-<div class="allergy">
-Vestmar Nett - Nøtter
 </div>
 
 </div>
@@ -319,17 +366,65 @@ Vestmar Nett - Nøtter
 
 <tr>
 <td>27.08</td>
-<td>130</td>
+<td class="warning">130</td>
 <td>52</td>
 </tr>
 
 <tr>
 <td>29.08</td>
 <td>-</td>
-<td>190</td>
+<td class="warning">190</td>
 </tr>
 
 </table>
+
+</div>
+
+<div class="section">
+
+<h2>Ukens Pausemat</h2>
+
+<table>
+
+<tr>
+<th>Dag</th>
+<th>Kunde</th>
+<th>Produkt</th>
+</tr>
+
+<tr>
+<td>Fredag</td>
+<td>Nedenesåsen Barnehage</td>
+<td>Pausematpakke</td>
+</tr>
+
+<tr>
+<td>Fredag</td>
+<td>SEB</td>
+<td>Kyllingwraps</td>
+</tr>
+
+<tr>
+<td>Torsdag</td>
+<td>Amedia</td>
+<td>Kyllingwraps</td>
+</tr>
+
+<tr>
+<td>Torsdag</td>
+<td>Vestmar Nett</td>
+<td>Kanelbolle / Wienerpekan</td>
+</tr>
+
+<tr>
+<td>Onsdag</td>
+<td>Intility</td>
+<td>Kanelbolle</td>
+</tr>
+
+</table>
+
+</div>
 
 </div>
 
