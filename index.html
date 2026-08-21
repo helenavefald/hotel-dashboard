@@ -5,18 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helena Hub</title>
 
-    <script css/style.css
+    <style>
+        body{
+            font-family:Segoe UI,Arial,sans-serif;
+            background:#f4f6f8;
+            margin:0;
+            padding:20px;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+        h1{
+            color:#173843;
+        }
 
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:15px;
+            margin-top:20px;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h3{
+            margin:0;
+            color:#666;
+            font-size:14px;
+        }
+
+        .value{
+            font-size:40px;
+            font-weight:bold;
+            color:#173843;
+        }
+
+        .section{
+            background:white;
+            margin-top:20px;
+            padding:20px;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Helena Hub fungerer ✅</h1>
+<h1>🏨 Helena Hub</h1>
 
-/app.js"></script>
-    
-</body>
-</html>
+<div class="cards">
+
+    <div class="card">
+        <h3>Boende</h3>
+        <div class="value">295</div>
+    </div>
+
+    <div class="card">
+        <h3>Frokost</h3>
+        <div class="value">156</div>
+    </div>
+
+    <div class="card">
+        <h3>Lunsj</h3>
+        <div class="value">98</div>
+    </div>
+
+    <div class="card">
+        <h3>Middag</h3>
+        <div class="value">103</div>
+    </div>
+
+    <div class="card">
+        <h3>Pausemat</h3>
+        <div class="value">44</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>Dagens pausemat</h2>
+
+    <h3>SEB</h3>
+    <p>32 × Kyllingwraps</p>
+
+    <p>
+        <b>Event Notes:</b><br>
+        Skal serveres sammen med felles innsjekk i resepsjonen.
+    </p>
+
+    <p>
+        <b>Allergier:</b><br>
+        Isak Fluck – Laktose
+    </p>
+</div>
+
+<div class="section">
+    <h2>Systemtest</h2>
+    <p>✅ HTML fungerer</p>
+    <p>✅ CSS 
