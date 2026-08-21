@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kragerø Resort Dashboard</title>
+    <title>Helena Hub</title>
 
-css/style.css
+    /style.css">
 
-.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.jsscript>
-
+    apaparse@5.4.1/papaparse.min.js"></script>
+    /npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -19,118 +18,130 @@ https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.jsscript>
     <h1>Kragerø Resort Dashboard</h1>
 
     <nav>
-        #dashboardDashboard</a>
-        #todayDagens Pausemat</a>
-        #weekUkens Pausemat</a>
-        #productionProduksjonsliste</a>
+        #dashboard
+        #today
+        week">Ukens Pausemat</a>
+        <a href="#production">liste</a>
         #forecast7 Dagers Prognose</a>
     </nav>
 
 </div>
-</div>
 
 <div class="content">
 
-<section class="upload-section">
+    <section class="upload-section">
 
-    <h2>Last opp rapporter</h2>
+        <h2>Last opp rapporter</h2>
 
-    <div class="upload-grid">
+        <div class="upload-grid">
 
-        <div class="upload-card">
-            <label>BookingSummaryReport.csv</label>
-            <input type="file" id="bookingFile">
+            <div class="upload-card">
+                <label>BookingSummaryReport.csv</label>
+                <input type="file" id="bookingFile">
+            </div>
+
+            <div class="upload-card">
+                <label>line_items.csv</label>
+                <input type="file" id="lineFile">
+            </div>
+
+            <div class="upload-card">
+                <label>Product Report.xlsx</label>
+                <input type="file" id="productFile">
+            </div>
+
         </div>
 
-        <div class="upload-card">
-            <label>line_items.csv</label>
-            <input type="file" id="lineFile">
+        <button id="buildBtn">
+            Oppdater Dashboard
+        </button>
+
+    </section>
+
+    <section id="dashboard">
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Boende</h3>
+                <div id="boende">-</div>
+            </div>
+
+            <div class="card">
+                <h3>Frokost</h3>
+                <div id="frokost">-</div>
+            </div>
+
+            <div class="card">
+                <h3>Lunsj</h3>
+                <div id="lunsj">-</div>
+            </div>
+
+            <div class="card">
+                <h3>Middag</h3>
+                <div id="middag">-</div>
+            </div>
+
+            <div class="card">
+                <h3>Pausemat</h3>
+                <div id="pausemat">-</div>
+            </div>
+
         </div>
 
-        <div class="upload-card">
-            <label>Product Report.xlsx</label>
-            <input type="file" id="productFile">
-        </div>
+    </section>
 
-    </div>
+    <section id="today">
 
-    <button id="buildBtn">
-        Oppdater Dashboard
-    </button>
+        <h2>Dagens Pausemat</h2>
 
-</section>
+        <div id="todayEvents"></div>
 
-<section id="dashboard">
+    </section>
 
-    <div class="cards">
+    <section id="week">
 
-        <div class="card">
-            <h3>Boende</h3>
-            <div id="boende">-</div>
-        </div>
+        <h2>Ukens Pausemat</h2>
 
-        <div class="card">
-            <h3>Frokost</h3>
-            <div id="frokost">-</div>
-        </div>
+        <div id="weekEvents"></div>
 
-        <div class="card">
-            <h3>Lunsj</h3>
-            <div id="lunsj">-</div>
-        </div>
+    </section>
 
-        <div class="card">
-            <h3>Middag</h3>
-            <div id="middag">-</div>
-        </div>
+    <section id="production">
 
-        <div class="card">
-            <h3>Pausemat</h3>
-            <div id="pausemat">-</div>
-        </div>
+        <h2>Produksjonsliste</h2>
 
-    </div>
+        <div id="productionList"></div>
 
-</section>
+    </section>
 
-<section id="today">
-    <h2>Dagens Pausemat</h2>
-    <div id="todayEvents"></div>
-</section>
+    <section id="forecast">
 
-<section id="week">
-    <h2>Ukens Pausemat</h2>
-    <div id="weekEvents"></div>
-</section>
+        <h2>Neste 7 dager</h2>
 
-<section id="production">
-    <h2>Produksjonsliste</h2>
-    <div id="productionList"></div>
-</section>
+        <table id="forecastTable">
 
-<section id="forecast">
-    <h2>Neste 7 dager</h2>
+            <thead>
 
-    <table id="forecastTable">
-        <thead>
-        <tr>
-            <th>Dato</th>
-            <th>Boende</th>
-            <th>Frokost</th>
-            <th>Lunsj</th>
-            <th>Middag</th>
-        </tr>
-        </thead>
+                <tr>
+                    <th>Dato</th>
+                    <th>Boende</th>
+                    <th>Frokost</th>
+                    <th>Lunsj</th>
+                    <th>Middag</th>
+                </tr>
 
-        <tbody></tbody>
+            </thead>
 
-    </table>
+            <tbody></tbody>
 
-</section>
+        </table>
+
+    </section>
 
 </div>
 
-/app.js"></script>
+js/app.jsscript>
 
 </body>
 </html>
